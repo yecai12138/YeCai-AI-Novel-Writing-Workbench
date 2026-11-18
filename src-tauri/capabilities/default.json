@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "主窗口能力：只允许核心事件（core:event 等）与自定义命令。刻意不授予 fs:/shell:/http:/dialog: 任何插件权限——文件操作全部在 Rust 侧的命令里完成。",
+  "windows": ["main"],
+  "permissions": ["core:default", "core:app:default"]
+}

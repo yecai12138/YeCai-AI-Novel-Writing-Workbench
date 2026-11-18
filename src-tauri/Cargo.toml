@@ -1,0 +1,48 @@
+[package]
+name = "storydesk"
+version = "1.0.7"
+description = "AI 小说写作工作台 · oh-story-claudecode 桌面外壳"
+authors = ["野菜 <yecai12138>"]
+edition = "2021"
+rust-version = "1.77"
+
+[lib]
+name = "storydesk_lib"
+# 桌面端只需要 rlib；cdylib/staticlib 是给移动端用的，
+# 而在 Windows + MinGW 下 cdylib 会因导出符号过多报
+# `ld.exe: error: export ordinal too large`（dlltool 的序号上限）。
+crate-type = ["rlib"]
+
+[features]
+# 前端是否内嵌由 tauri 的 `custom-protocol` feature 决定
+# （tauri-macros/src/context.rs:155 `dev: cfg!(not(feature = "custom-protocol"))`）。
+# `npm run tauri:build` / `tauri build` 传的是 `--features tauri/custom-protocol`；
+# 手工构建时用这里的转发 feature 即可：`cargo build --release --features custom-protocol`。
+# 少了它 = dev 模式：窗口加载 devUrl(http://localhost:1420) → ERR_CONNECTION_REFUSED。
+custom-protocol = ["tauri/custom-protocol"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# 文件监听：跨平台 inotify / ReadDirectoryChangesW / FSEvents 封装
+notify = "6.1"
+# 快照目录名需要 sha1(相对路径)，只要摘要，不要其它密码学设施
+sha1 = "0.10"
+# 子进程流式读取：tokio::process + AsyncBufReadExt + 超时轮询 + spawn
+tokio = { version = "1", features = ["process", "io-util", "time", "sync", "rt", "macros"] }
+# hook stderr 的阻断文案解析
+regex = "1"
+# API Key 落系统凭据库。keyring 3.x 默认不开任何后端，必须显式选：
+# Windows 用 Credential Manager；跨平台构建时再加 apple-native / sync-secret-service。
+keyring = { version = "3", features = ["windows-native"] }
+# 「获取可用模型」：拉 OpenAI 兼容的 /models。用 rustls，免掉本机 OpenSSL。
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+# 读 Windows 系统代理（注册表 Internet Settings），opencode 自动下载时识别用户代理配置
+winreg = "0.55"
+
+[profile.dev]
+incremental = true
