@@ -17,6 +17,7 @@ interface UiState {
   rightCollapsed: boolean;
   settingsOpen: boolean;
   newProjectOpen: boolean;
+  styleStatsOpen: boolean;
 
   setLeftWidth: (width: number) => void;
   setRightWidth: (width: number) => void;
@@ -24,6 +25,7 @@ interface UiState {
   toggleRight: () => void;
   setSettingsOpen: (open: boolean) => void;
   setNewProjectOpen: (open: boolean) => void;
+  setStyleStatsOpen: (open: boolean) => void;
 }
 
 export const useUiStore = create<UiState>()(
@@ -35,6 +37,7 @@ export const useUiStore = create<UiState>()(
       rightCollapsed: false,
       settingsOpen: false,
       newProjectOpen: false,
+      styleStatsOpen: false,
 
       setLeftWidth: (width) => set({ leftWidth: clamp(width, LEFT_MIN, LEFT_MAX) }),
       setRightWidth: (width) => set({ rightWidth: clamp(width, RIGHT_MIN, RIGHT_MAX) }),
@@ -42,6 +45,7 @@ export const useUiStore = create<UiState>()(
       toggleRight: () => set((s) => ({ rightCollapsed: !s.rightCollapsed })),
       setSettingsOpen: (open) => set({ settingsOpen: open }),
       setNewProjectOpen: (open) => set({ newProjectOpen: open }),
+      setStyleStatsOpen: (open) => set({ styleStatsOpen: open }),
     }),
     {
       name: "storydesk.ui",

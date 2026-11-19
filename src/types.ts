@@ -767,6 +767,40 @@ export interface ChatMessage {
   timestamp: number;
 }
 
+// ---------------------------------------------------------------- 1.0.8：文风体检
+
+/** 一条句式 tic 的全书计数（对应 Rust stylestat::PatternStat）。 */
+export interface StylePatternStat {
+  name: string;
+  total: number;
+  /** 全书平均每章出现次数 */
+  perChapter: number;
+}
+
+export interface StylePhraseStat {
+  text: string;
+  count: number;
+}
+
+/** 跨章逐字重复的句子：同样的字被反复用来交代。 */
+export interface StyleSentenceStat {
+  text: string;
+  chapters: number;
+  count: number;
+}
+
+/** 全书文风统计（对应 Rust stylestat::StyleStats）。只有计数，没有评分。 */
+export interface StyleStats {
+  chapters: number;
+  totalChars: number;
+  avgChars: number;
+  patterns: StylePatternStat[];
+  topPhrases: StylePhraseStat[];
+  repeatedSentences: StyleSentenceStat[];
+  ending: { shortRatio: number; medianChars: number };
+  titles: { withPrefix: number; withoutPrefix: number };
+}
+
 /** Rust `StoryError` 的序列化形状：按 `kind` 分支展示，不用 message 做逻辑判断。 */
 export type StoryError =
   | { kind: "envMissing"; tool: string; message: string; hint: string }

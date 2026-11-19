@@ -264,7 +264,7 @@ pub(crate) fn apply_agent_prompt(
     // R3 项 6：单次运行也走设定快照（源文件没变只是一次字符串比较，不重复写盘）。
     let snapshot_abs =
         crate::services::setting_snapshot::ensure(book_root).map(|report| report.abs);
-    let prompt = engine::compose_agent_prompt(
+    let mut prompt = engine::compose_agent_prompt(
         &agent,
         &tools,
         &files,
@@ -275,6 +275,16 @@ pub(crate) fn apply_agent_prompt(
         prev_digest.as_deref(),
         snapshot_abs.as_deref(),
     );
+    // 全书级文风体检：单章评审看不见「同一句式全书出现几百次」这件事，只有摊开成数字
+    // 才看得见。这里只把**计数事实**接在写手的 prompt 末尾，判断仍由模型做（见
+    // services/stylestat.rs 的模块注释与 docs/纪律清单.md 第 9 条）。
+    // 只在写正文时注入：大纲、设定、审阅不需要这份数字，白占上下文。
+    if agent.target_dir.trim_end_matches(['/', '\\']) == "正文" {
+        if let Some(stats) = crate::services::stylestat::stats_of(book_root) {
+            prompt.push_str("\n\n");
+            prompt.push_str(&crate::services::stylestat::brief(&stats, 5));
+        }
+    }
     (prompt, Some(agent))
 }
 

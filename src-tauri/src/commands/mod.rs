@@ -8,6 +8,7 @@ pub mod ops;
 pub mod prompt;
 pub mod project;
 pub mod settings;
+pub mod style;
 
 use crate::models::StoryError;
 

@@ -83,6 +83,7 @@ pub fn run() {
             commands::ai::gate_chapter_check,
             commands::ai::gate_postcheck,
             commands::ai::gate_build_packet,
+            commands::style::style_stats,
             commands::master::master_plan,
             commands::master::master_run,
             commands::master::master_resume,

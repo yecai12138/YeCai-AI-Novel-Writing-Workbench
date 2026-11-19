@@ -40,6 +40,7 @@ import type {
   SnapshotInfo,
   StartResult,
   StoryError,
+  StyleStats,
   TaskPacket,
   TreeNode,
 } from "@/types";
@@ -355,6 +356,13 @@ export const api = {
   /** 手动重跑后置体检（卡片上的「重新体检」）。 */
   gatePostcheck: (workspaceRoot: string, bookRoot: string, chapter: number) =>
     call<PostCheck>("gate_postcheck", { workspaceRoot, bookRoot, chapter }),
+
+  /**
+   * 全书文风体检：只读统计，不写任何文件。
+   * 章数不足 5 章时后端返回 null（样本太小，频率没有意义），调用方要显式说明。
+   */
+  styleStats: (workspaceRoot: string, bookRoot: string) =>
+    call<StyleStats | null>("style_stats", { workspaceRoot, bookRoot }),
 
   gateBuildPacket: (
     workspaceRoot: string,

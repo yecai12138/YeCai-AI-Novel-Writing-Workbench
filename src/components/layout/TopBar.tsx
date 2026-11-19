@@ -9,6 +9,7 @@ export function TopBar() {
   const refreshTree = useProjectStore((s) => s.refreshTree);
   const closeProject = useProjectStore((s) => s.closeProject);
   const setSettingsOpen = useUiStore((s) => s.setSettingsOpen);
+  const setStyleStatsOpen = useUiStore((s) => s.setStyleStatsOpen);
   const setNewProjectOpen = useUiStore((s) => s.setNewProjectOpen);
 
   return (
@@ -26,6 +27,14 @@ export function TopBar() {
       </div>
 
       <div className="ml-auto flex items-center gap-1.5">
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => setStyleStatsOpen(true)}
+          title="全书文风统计：只出计数，不做评分"
+        >
+          文风体检
+        </Button>
         <Button size="sm" variant="ghost" onClick={() => void refreshTree()} title="重新读取磁盘">
           刷新
         </Button>

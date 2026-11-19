@@ -2,6 +2,7 @@ import { useEffect } from "react";
 
 import { NewProjectDialog } from "@/components/project/NewProjectDialog";
 import { SettingsDialog } from "@/components/settings/SettingsDialog";
+import { StyleStatsDialog } from "@/components/style/StyleStatsDialog";
 import { Welcome } from "@/pages/Welcome";
 import { Workspace } from "@/pages/Workspace";
 import { useAiStore } from "@/store/aiStore";
@@ -27,6 +28,7 @@ export default function App() {
 
   const settingsOpen = useUiStore((s) => s.settingsOpen);
   const newProjectOpen = useUiStore((s) => s.newProjectOpen);
+  const styleStatsOpen = useUiStore((s) => s.styleStatsOpen);
 
   useEffect(() => {
     // 启动时恢复上次的项目；顺手跑一次环境自检，让设置页一打开就有数据
@@ -58,6 +60,10 @@ export default function App() {
 
       <SettingsDialog open={settingsOpen} onOpenChange={(o) => useUiStore.getState().setSettingsOpen(o)} />
       <NewProjectDialog open={newProjectOpen} onOpenChange={(o) => useUiStore.getState().setNewProjectOpen(o)} />
+      <StyleStatsDialog
+        open={styleStatsOpen}
+        onOpenChange={(o) => useUiStore.getState().setStyleStatsOpen(o)}
+      />
     </div>
   );
 }

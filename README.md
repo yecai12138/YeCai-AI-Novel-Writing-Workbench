@@ -6,6 +6,15 @@ oh-story-claudecode 的桌面外壳。写作流程（skill）跑在宿主 Agent 
 
 ---
 
+## 0. 1.0.8 有什么（文风体检 + 纪律清单）
+
+- **文风体检**（顶部「文风体检」按钮）：只统计、不评分。全书跑一遍句式 tic 8 类、最近 20 章高频短语、跨章逐字重复句、章末短结尾占比、章标题前缀混用；少于 5 章显示「样本不足」。
+  - 代码：`src-tauri/src/services/stylestat.rs`（纯函数 `compute`）、`src-tauri/src/commands/style.rs`、前端 `src/components/style/StyleStatsDialog.tsx`。
+  - 写正文时，简报（`stylestat::brief`）会自动追加进 writer 的提示词，最后一句是「本章不要再复用这些句式与短语」；**统计不参与章节是否通过的判定**。
+- **纪律清单 + 契约检查**：`docs/纪律清单.md` 列禁止事项与「怎么查」，`docs/文风统计.md` 是计数口径的规格；`npm run contract` 机械校验 4 项（单一 IPC 出口、命令全部注册、版本号三处一致、判据表与 `pattern_defs()` 逐字一致）。
+
+---
+
 ## 1. 运行环境
 
 | 依赖 | 版本 | 用途 | 缺失后果 |

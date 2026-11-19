@@ -24,5 +24,6 @@ pub mod setting_snapshot;
 pub mod settings;
 pub mod skills;
 pub mod snapshot;
+pub mod stylestat;
 pub mod watcher;
 pub mod workspace;

@@ -1,7 +1,7 @@
 {
   "name": "storydesk",
   "private": true,
-  "version": "1.0.7",
+  "version": "1.0.8",
   "type": "module",
   "author": "野菜 <yecai12138> (https://github.com/yecai12138)",
   "description": "AI 小说写作工作台 · oh-story-claudecode 桌面外壳",
@@ -9,6 +9,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
+    "contract": "node scripts/check-contracts.mjs",
     "preview": "vite preview",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",

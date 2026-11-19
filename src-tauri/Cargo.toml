@@ -1,6 +1,6 @@
 [package]
 name = "storydesk"
-version = "1.0.7"
+version = "1.0.8"
 description = "AI 小说写作工作台 · oh-story-claudecode 桌面外壳"
 authors = ["野菜 <yecai12138>"]
 edition = "2021"
